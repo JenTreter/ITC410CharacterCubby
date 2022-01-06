@@ -29,11 +29,8 @@ Character Cubby will have a page for users to conveniently view all of the templ
 - update user information
 - delete user
 - create template
-- update template information
+- update template 
 - delete template
-- create template field
-- update template field
-- delete template field
 - create character
 - update character
 - delete character
