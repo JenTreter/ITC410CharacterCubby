@@ -26,7 +26,7 @@ Character Cubby will have a page for users to conveniently view all of the templ
 ## Commands 
 
 - create user
-- update user information
+- update user
 - delete user
 - create template
 - update template 
@@ -37,27 +37,39 @@ Character Cubby will have a page for users to conveniently view all of the templ
 
 ## Entities 
 
-**User**
-- user id (unique)
-- username (unique)
-- email (unique)
-- password (hashed)
-- pronouns (string)
-- profile picture (file upload, png jpg only, limited size, can be empty)
-- description (string, can be empty)
+### User
+The users of the website, who create and use templates to fill out biographies for their characters.
 
-**Template**
-- template id (unique)
-- user id (unique)
-- description (string, can be empty)
-- fields (dynamic and user-generated array of fields; possible value types are short text, long text, decimal number, calculated numeric value, hyperlink, image, bulleted list, numeric list, and table; fields have an order, and the order can be changed)
-- permissions (either private (only the creator can use) or public (any user can use))
+| Property | Type | Description |
+| ------ | ------ | ------ |
+| user id | UUID | Auto-generated, unique, immutable. |
+| username | string | Unique, the user's chosen display name. |
+| email | string | Unique, the user's associated email address. |
+| password | encrypted text | The user's password. |
+| pronouns | string | The pronouns the user wishes to use. |
+| profile picture | file | (Optional) png jpg only, limited size. |
+| about me | text | (Optional) information about the user that they wish to provide. |
 
-**Character**
-- character id (unique)
-- user id (unique)
-- template id (the template that was used)
-- data (array of filled out fields for template)
+### Template
+Forms created by users with different kinds of fields. Templates are filled out by the user later to create characters of the template type.
+| Property | Type | Description |
+| ------ | ------ | ------ |
+| template id | UUID | Auto-generated, unique, immutable. |
+| user id | UUID | Unique, the id of the user who created the template. |
+| description | string | (Optional) information about the template. |
+| permissions | enum | Permissions for who may view and use the template, either private (only the creator can use) or public (any user can use). |
+| fields | array | Dynamic and user-generated array of fields; possible value types are short text, long text, decimal number, calculated numeric value, hyperlink, image, bulleted list, numeric list, and table; fields have an order, and the order can be changed. |
+
+### Character
+Instances of templates created by users with fields of the template filled out.
+| Property | Type | Description |
+| ------ | ------ | ------ |
+| character id | UUID | Auto-generated, unique, immutable. |
+| user id | UUID | Unique, the id of the user who created the template. |
+| template id | UUID | Unique, the id of the template used for this character. |
+| information | array | A 2D array of filled out fields for template. |
+| thumbnail | file | (Optional) png jpg only, limited size. |
+
 
 
 ## Value Objects 
@@ -66,3 +78,182 @@ Character Cubby will have a page for users to conveniently view all of the templ
 
 - image id (unique)
 - data
+
+| Property | Type | Description |
+| ------ | ------ | ------ |
+| image id | UUID | Auto-generated, unique, immutable. |
+| file data | file | The data of the file. |
+
+# REST API Design
+
+## User Account
+The users of the website, who create and use templates to fill out biographies for their characters.
+
+### Commands 
+| Query | URL Fragment | HTTP Method | Path Parameters |
+| ------ | ------ | ------ | ------ |
+| create user | ```/users``` | POST |   |
+| update user | ```/users/{user_id}``` | PUT | ```user_id``` |
+| delete user | ```/users/{user_id}``` | DELETE | ```user_id``` |
+
+### Queries
+| Query | URL Fragment | HTTP Method | Path Parameters |
+| ------ | ------ | ------ | ------ |
+| get user | ```/users/{user_id}``` | GET | ```user_id``` |
+
+### Request Bodies
+#### Create User
+````JSON
+{
+    "username": "string",
+    "email": "string",
+    "password": "string",
+    "pronouns": "string",
+    "profile picture": {},
+    "about me": "string"
+}
+````
+
+#### Update User
+````JSON
+{
+    "username": "string",
+    "email": "string",
+    "password": "string",
+    "pronouns": "string",
+    "profile picture": {},
+    "about me": "string"
+}
+````
+
+### Response Bodies
+#### Get User
+````JSON
+{
+    "username": "string",
+    "email": "string",
+    "pronouns": "string",
+    "profile picture": {},
+    "about me": "string"
+}
+````
+
+## Template
+Forms created by users with different kinds of fields. Templates are filled out by the user later to create characters of the template type.
+
+### Commands 
+| Query | URL Fragment | HTTP Method | Path Parameters |
+| ------ | ------ | ------ | ------ |
+| create template | ```/templates``` | POST |   |
+| update template | ```/templates/{template_id}``` | PUT | ```template_id``` |
+| delete template | ```/templates/{template_id}``` | DELETE | ```template_id``` |
+
+### Queries
+| Query | URL Fragment | HTTP Method | Path Parameters |
+| ------ | ------ | ------ | ------ |
+| get template | ```/templates/{template_id}``` | GET | ```template_id``` |
+
+### Request Bodies
+#### Create Template
+````JSON
+{
+    "user id": "string",
+    "description": "string",
+    "permissions": "enum",
+    "fields": 
+    [
+        { "field name": "string" },
+        { "field name": "string" }
+    ]
+}
+````
+
+#### Update Template
+````JSON
+{
+    "description": "string",
+    "permissions": "enum",
+    "fields": 
+    [
+        { "field name": "string" },
+        { "field name": "string" }
+    ]
+}
+````
+
+### Response Bodies
+#### Get Template
+````JSON
+{
+    "user id": "string",
+    "description": "string",
+    "permissions": "enum",
+    "fields": 
+    [
+        { "field name": "string" },
+        { "field name": "string" }
+    ]
+}
+````
+
+## Character
+Instances of templates created by users with fields of the template filled out.
+
+### Commands 
+| Query | URL Fragment | HTTP Method | Path Parameters |
+| ------ | ------ | ------ | ------ |
+| create character | ```/characters``` | POST |   |
+| update character | ```/characters/{character_id}``` | PUT | ```character_id``` |
+| delete character | ```/characters/{character_id}``` | DELETE | ```character_id``` |
+
+### Queries
+| Query | URL Fragment | HTTP Method | Path Parameters |
+| ------ | ------ | ------ | ------ |
+| get character | ```/characters/{character_id}``` | GET | ```character_id``` |
+
+### Request Bodies
+character id | UUID | Auto-generated, unique, immutable. |
+| user id | UUID | Unique, the id of the user who created the template. |
+| template id | UUID | Unique, the id of the template used for this character. |
+| information | array | A 2D array of filled out fields for template. |
+| thumbnail | file |
+#### Create Character
+````JSON
+{
+    "user id": "string",
+    "template id": "string",
+    "information": 
+    [
+        { "field name": "string" },
+        { "field name": "string" }
+    ],
+    "thumbnail": {}
+}
+````
+
+#### Update Template
+````JSON
+{
+    "information": 
+    [
+        { "field name": "string" },
+        { "field name": "string" }
+    ],
+    "thumbnail": {}
+}
+````
+
+### Response Bodies
+#### Get Template
+````JSON
+{
+    "user id": "string",
+    "template id": "string",
+    "information": 
+    [
+        { "field name": "string" },
+        { "field name": "string" }
+    ],
+    "thumbnail": {}
+}
+````
