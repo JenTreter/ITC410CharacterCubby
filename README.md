@@ -57,7 +57,7 @@ Forms created by users with different kinds of fields. Templates are filled out 
 | template id | UUID | Auto-generated, unique, immutable. |
 | user id | UUID | Unique, the id of the user who created the template. |
 | description | string | (Optional) information about the template. |
-| permissions | enum | Permissions for who may view and use the template, either private (only the creator can use) or public (any user can use). |
+| permissions | string | Permissions for who may view and use the template, either private (only the creator can use) or public (any user can use). |
 | fields | array | Dynamic and user-generated array of fields; possible value types are short text, long text, decimal number, calculated numeric value, hyperlink, image, bulleted list, numeric list, and table; fields have an order, and the order can be changed. |
 
 ### Character
@@ -159,7 +159,7 @@ Forms created by users with different kinds of fields. Templates are filled out 
 {
     "user id": "string",
     "description": "string",
-    "permissions": "enum",
+    "permissions": "string",
     "fields": 
     [
         { "field name": "string" },
@@ -172,7 +172,7 @@ Forms created by users with different kinds of fields. Templates are filled out 
 ````JSON
 {
     "description": "string",
-    "permissions": "enum",
+    "permissions": "string",
     "fields": 
     [
         { "field name": "string" },
@@ -187,7 +187,7 @@ Forms created by users with different kinds of fields. Templates are filled out 
 {
     "user id": "string",
     "description": "string",
-    "permissions": "enum",
+    "permissions": "string",
     "fields": 
     [
         { "field name": "string" },
