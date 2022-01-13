@@ -212,11 +212,6 @@ Instances of templates created by users with fields of the template filled out.
 | get character | ```/characters/{character_id}``` | GET | ```character_id``` |
 
 ### Request Bodies
-character id | UUID | Auto-generated, unique, immutable. |
-| user id | UUID | Unique, the id of the user who created the template. |
-| template id | UUID | Unique, the id of the template used for this character. |
-| information | array | A 2D array of filled out fields for template. |
-| thumbnail | file |
 #### Create Character
 ````JSON
 {
