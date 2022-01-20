@@ -13,6 +13,8 @@ Character Cubby will have a page for users to conveniently view all of the templ
 - user created
 - user updated
 - user deleted
+- user logged in
+- user logged out
 - template created
 - template updated
 - template deleted
@@ -28,6 +30,8 @@ Character Cubby will have a page for users to conveniently view all of the templ
 - create user
 - update user
 - delete user
+- log in user
+- log out user
 - create template
 - update template 
 - delete template
@@ -95,6 +99,8 @@ The users of the website, who create and use templates to fill out biographies f
 | create user | ```/users``` | POST |   |
 | update user | ```/users/{user_id}``` | PUT | ```user_id``` |
 | delete user | ```/users/{user_id}``` | DELETE | ```user_id``` |
+| log in user | ```/users/{user_id}/login``` | PUT | ```user_id``` |
+| log out user | ```/users/{user_id}/logout``` | PUT | ```user_id``` |
 
 ### Queries
 | Query | URL Fragment | HTTP Method | Path Parameters |
@@ -123,6 +129,13 @@ The users of the website, who create and use templates to fill out biographies f
     "pronouns": "string",
     "profile picture": {},
     "about me": "string"
+}
+````
+
+#### User Log In
+````JSON
+{
+    "password": "string"
 }
 ````
 
