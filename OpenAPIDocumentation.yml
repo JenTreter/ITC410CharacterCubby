@@ -13,27 +13,7 @@ paths:
         content: 
           application/json:
             schema: 
-              type: object
-              required:
-               - username
-               - email
-               - password
-               - pronouns
-              properties:
-               username: 
-                type: string
-               email: 
-                type: string
-               password: 
-                type: string
-                format: password
-               pronouns: 
-                type: string
-               profile picture: 
-                type: string
-                format: byte
-               about me: 
-                type: string
+              $ref: '#/components/schemas/User'
             example:
               username: JellyCat
               email: JellyCats89@gmail.com
@@ -46,6 +26,8 @@ paths:
           description: User sucessfully created
         400:
           description: Request body not correctly formatted
+        409:
+          description: User already exists
   /users/{user_id}:
     parameters: 
         - name: user_id
@@ -60,8 +42,109 @@ paths:
       responses:
         204: 
           description: Successfully deleted a user
+    put:
+      tags:
+       - Users
+      summary: Update a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            example:
+              username: JellyCat
+              email: JellyCats89@gmail.com
+              password: jumpingjellybeans8!
+              pronouns: She/Her
+              profile picture: image.png
+              about me: smol bean who likes cats
+      responses:
+        200:
+          description: Sucessfully updated a user
+        400:
+          description: Request body not correctly formatted
+    get:
+      tags:
+         - Users
+      summary: Retrieve a user
+      responses:
+        200:
+          description: Successfully retrieved a user
+        400:
+          description: Incorrectly formatted request
+  /users/{user_id}/login:
+    parameters: 
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+    put:
+      tags:
+       - Users
+      summary: Log in a user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: 
+               - password
+              properties:
+                password:
+                  type: string
+                  format: password
+            example:
+              password: jumpingjellybeans8!
+      responses:
+        200: 
+          description: Authenticated
+        400:
+          description: Invalid request
+        403:
+          description: Access denied
+  /users/{user_id}/logout:
+    parameters: 
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+    put:
+      tags:
+       - Users
+      summary: Log out a user.
+      responses:
+        200: 
+          description: Logged out.
+        403:
+          description: Access denied
 components:
   schemas:
+    User:
+      type: object
+      required:
+       - username
+       - email
+       - password
+       - pronouns
+      properties:
+        username: 
+          type: string
+        email: 
+          type: string
+        password: 
+          type: string
+          format: password
+        pronouns: 
+          type: string
+        profile picture: 
+          type: string
+          format: byte
+        about me: 
+          type: string
     Template:
       type: object
       properties:
@@ -76,10 +159,29 @@ components:
           type: array
           items: 
             type: object
-              properties: 
-                - Name
-                - Information
-        
+            properties: 
+                field name:
+                  type: string
+                information:
+                  type: string
+    Character:
+      type: object
+      properties:
+        user id:
+          type: string
+          readOnly: true
+        template id:
+          type: string
+          readOnly: true
+        information:
+          type: array
+          items: 
+            type: object
+            properties: 
+                field name:
+                  type: string
+                information:
+                  type: string
         
           
           
