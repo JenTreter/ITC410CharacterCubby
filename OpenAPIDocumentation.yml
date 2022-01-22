@@ -121,6 +121,100 @@ paths:
           description: Logged out.
         403:
           description: Access denied
+  /templates:
+    post: 
+      tags:
+        - Templates
+      summary: Create a new template
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/Template'
+            example:
+              user id: 237e9877-e79b-12d4-a765-321741963000
+              name: Fluttercats
+              description: Fluttercats are a special species of fae found near quiet cottages and gardens. Shy and secretive, these little fae only tend to come out at night. Ranging from four to six inches at the shoulder, Fluttercats have butterfly wings that come in most ever color that always match their eyes.
+              permissions: Public
+              fields: 
+                 - Pronouns:
+                     - string
+                 - Wing Type:
+                     - string
+                 - Coat Pattern:
+                     - string
+                 - Height at Shoulder:
+                     - double
+                 - Description:
+                     - string
+                 - Personality:
+                     - string
+      responses:
+        201: 
+          description: Template sucessfully created
+        400:
+          description: Request body not correctly formatted
+  /templates/{template_id}/{user_id}:
+    parameters: 
+        - name: template_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+    delete:
+      tags:
+       - Templates
+      summary: Delete a template
+      responses:
+        204: 
+          description: Successfully deleted a template
+    put:
+      tags:
+       - Templates
+      summary: Update a template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Template'
+            example:
+              name: Fluttercats
+              description: Fluttercats are a special species of fae found near quiet cottages and gardens. Shy and secretive, these little fae only tend to come out at night. Ranging from four to six inches at the shoulder, Fluttercats have butterfly wings that come in most ever color that always match their eyes.
+              permissions: Public
+              fields: 
+                 - Pronouns:
+                     - string
+                 - Wing Type:
+                     - string
+                 - Coat Pattern:
+                     - string
+                 - Height at Shoulder:
+                     - double
+                 - Description:
+                     - string
+                 - Personality:
+                     - string
+      responses:
+        200:
+          description: Sucessfully updated a template
+        400:
+          description: Request body not correctly formatted
+    get:
+      tags:
+         - Templates
+      summary: Retrieve a template
+      responses:
+        200:
+          description: Successfully retrieved a template
+        400:
+          description: Incorrectly formatted request
 components:
   schemas:
     User:
@@ -151,6 +245,8 @@ components:
         user id:
           type: string
           readOnly: true
+        name: 
+          type: string
         description: 
           type: string
         permissions: 
@@ -173,6 +269,8 @@ components:
         template id:
           type: string
           readOnly: true
+        name: 
+          type: string
         information:
           type: array
           items: 
