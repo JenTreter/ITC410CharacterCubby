@@ -60,6 +60,7 @@ Forms created by users with different kinds of fields. Templates are filled out 
 | ------ | ------ | ------ |
 | template id | UUID | Auto-generated, unique, immutable. |
 | user id | UUID | Unique, the id of the user who created the template. |
+| name | string | Name of the template. |
 | description | string | (Optional) information about the template. |
 | permissions | string | Permissions for who may view and use the template, either private (only the creator can use) or public (any user can use). |
 | fields | array | Dynamic and user-generated array of fields; possible value types are short text, long text, decimal number, calculated numeric value, hyperlink, image, bulleted list, numeric list, and table; fields have an order, and the order can be changed. |
@@ -70,6 +71,7 @@ Instances of templates created by users with fields of the template filled out.
 | ------ | ------ | ------ |
 | character id | UUID | Auto-generated, unique, immutable. |
 | user id | UUID | Unique, the id of the user who created the template. |
+| name | string | Name of the character. |
 | template id | UUID | Unique, the id of the template used for this character. |
 | information | array | A 2D array of filled out fields for template. |
 | thumbnail | file | (Optional) png jpg only, limited size. |
@@ -171,6 +173,7 @@ Forms created by users with different kinds of fields. Templates are filled out 
 ````JSON
 {
     "user id": "string",
+    "name": "string",
     "description": "string",
     "permissions": "string",
     "fields": 
@@ -184,6 +187,7 @@ Forms created by users with different kinds of fields. Templates are filled out 
 #### Update Template
 ````JSON
 {
+    "name": "string",
     "description": "string",
     "permissions": "string",
     "fields": 
@@ -199,6 +203,7 @@ Forms created by users with different kinds of fields. Templates are filled out 
 ````JSON
 {
     "user id": "string",
+    "name": "string",
     "description": "string",
     "permissions": "string",
     "fields": 
@@ -230,6 +235,7 @@ Instances of templates created by users with fields of the template filled out.
 {
     "user id": "string",
     "template id": "string",
+    "name": "string",
     "information": 
     [
         { "field name": "string" },
@@ -239,9 +245,10 @@ Instances of templates created by users with fields of the template filled out.
 }
 ````
 
-#### Update Template
+#### Update Character
 ````JSON
 {
+    "name": "string",
     "information": 
     [
         { "field name": "string" },
@@ -252,11 +259,12 @@ Instances of templates created by users with fields of the template filled out.
 ````
 
 ### Response Bodies
-#### Get Template
+#### Get Character
 ````JSON
 {
     "user id": "string",
     "template id": "string",
+    "name": "string",
     "information": 
     [
         { "field name": "string" },
