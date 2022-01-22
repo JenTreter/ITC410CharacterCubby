@@ -150,6 +150,7 @@ paths:
                      - string
                  - Personality:
                      - string
+              thumbnail: image.png
       responses:
         201: 
           description: Template sucessfully created
@@ -201,6 +202,7 @@ paths:
                      - string
                  - Personality:
                      - string
+              thumbnail: image.png
       responses:
         200:
           description: Sucessfully updated a template
@@ -213,6 +215,110 @@ paths:
       responses:
         200:
           description: Successfully retrieved a template
+        400:
+          description: Incorrectly formatted request
+  /characters:
+    post: 
+      tags:
+        - Characters
+      summary: Create a new character
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/Character'
+            example:
+              user id: 237e9877-e79b-12d4-a765-321741963000
+              template id: 583e5a7b-48bc-913f-0dd4-463559268361
+              name: Monarch
+              description: Fluttercats are a special species of fae found near quiet cottages and gardens. Shy and secretive, these little fae only tend to come out at night. Ranging from four to six inches at the shoulder, Fluttercats have butterfly wings that come in most ever color that always match their eyes.
+              permissions: Public
+              information: 
+                 - Pronouns:
+                     - She/Her
+                 - Wing Type:
+                     - Monarch Butterfly
+                 - Coat Pattern:
+                     - Solid dark grey, short fur
+                 - Height at Shoulder:
+                     - 5.7
+                 - Description:
+                     - On the larger side for a Fluttercat with big, vivid wings and bright amber eyes. She has a small scar on her chin. 
+                 - Personality:
+                     - Stiff and formal, Monarch can be a hard character to get along with at first. Still, she does eventually warm up to other Fluttercats, given enough time.
+              thumbnail: image.png
+      responses:
+        201: 
+          description: Character sucessfully created
+        400:
+          description: Request body not correctly formatted
+  /characters/{character_id}/{template_id}/{user_id}:
+    parameters: 
+        - name: character_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: template_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+    delete:
+      tags:
+       - Characters
+      summary: Delete a character
+      responses:
+        204: 
+          description: Successfully deleted a character
+    put:
+      tags:
+       - Characters
+      summary: Update a character
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Character'
+            example:
+              user id: 237e9877-e79b-12d4-a765-321741963000
+              template id: 583e5a7b-48bc-913f-0dd4-463559268361
+              name: Monarch
+              description: Fluttercats are a special species of fae found near quiet cottages and gardens. Shy and secretive, these little fae only tend to come out at night. Ranging from four to six inches at the shoulder, Fluttercats have butterfly wings that come in most ever color that always match their eyes.
+              permissions: Public
+              information: 
+                 - Pronouns:
+                     - She/Her
+                 - Wing Type:
+                     - Monarch Butterfly
+                 - Coat Pattern:
+                     - Solid dark grey, short fur
+                 - Height at Shoulder:
+                     - 5.7
+                 - Description:
+                     - On the larger side for a Fluttercat with big, vivid wings and bright amber eyes. She has a small scar on her chin. 
+                 - Personality:
+                     - Stiff and formal, Monarch can be a hard character to get along with at first. Still, she does eventually warm up to other Fluttercats, given enough time.
+              thumbnail: image.png
+      responses:
+        200:
+          description: Sucessfully updated a character
+        400:
+          description: Request body not correctly formatted
+    get:
+      tags:
+         - Characters
+      summary: Retrieve a character
+      responses:
+        200:
+          description: Successfully retrieved a character
         400:
           description: Incorrectly formatted request
 components:
@@ -260,6 +366,9 @@ components:
                   type: string
                 information:
                   type: string
+        thumbnail: 
+          type: string
+          format: byte        
     Character:
       type: object
       properties:
@@ -280,6 +389,9 @@ components:
                   type: string
                 information:
                   type: string
+        thumbnail: 
+          type: string
+          format: byte
         
           
           
