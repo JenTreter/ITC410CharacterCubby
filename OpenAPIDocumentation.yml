@@ -4,7 +4,9 @@ info:
   version: 1.0.0
 paths: 
   /users:
+    x-controller: users
     post: 
+      x-operation: createUser
       tags:
         - Users
       summary: Create a new user account
@@ -14,21 +16,19 @@ paths:
           application/json:
             schema: 
               $ref: '#/components/schemas/User'
-            example:
-              username: JellyCat
-              email: JellyCats89@gmail.com
-              password: jumpingjellybeans8!
-              pronouns: She/Her
-              profile picture: image.png
-              about me: smol bean who likes cats
       responses:
         201: 
           description: User sucessfully created
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/User'
         400:
           description: Request body not correctly formatted
         409:
           description: User already exists
   /users/{user_id}:
+    x-controller: users_userid
     parameters: 
         - name: user_id
           in: path
@@ -36,6 +36,7 @@ paths:
           schema:
             type: string
     delete:
+      x-operation: deleteUser
       tags:
        - Users
       summary: Delete a user
@@ -43,6 +44,7 @@ paths:
         204: 
           description: Successfully deleted a user
     put:
+      x-operation: updateUser
       tags:
        - Users
       summary: Update a user
@@ -52,28 +54,31 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/User'
-            example:
-              username: JellyCat
-              email: JellyCats89@gmail.com
-              password: jumpingjellybeans8!
-              pronouns: She/Her
-              profile picture: image.png
-              about me: smol bean who likes cats
       responses:
         200:
           description: Sucessfully updated a user
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/User'
         400:
           description: Request body not correctly formatted
     get:
+      x-operation: getUser
       tags:
          - Users
       summary: Retrieve a user
       responses:
         200:
           description: Successfully retrieved a user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         400:
           description: Incorrectly formatted request
   /users/{user_id}/login:
+    x-controller: users_userid_login
     parameters: 
         - name: user_id
           in: path
@@ -81,6 +86,7 @@ paths:
           schema:
             type: string
     put:
+      x-operation: loginUser
       tags:
        - Users
       summary: Log in a user.
@@ -106,6 +112,7 @@ paths:
         403:
           description: Access denied
   /users/{user_id}/logout:
+    x-controller: users_userid_logout
     parameters: 
         - name: user_id
           in: path
@@ -113,6 +120,7 @@ paths:
           schema:
             type: string
     put:
+      x-operation: logoutUser
       tags:
        - Users
       summary: Log out a user.
@@ -122,7 +130,9 @@ paths:
         403:
           description: Access denied
   /templates:
+    x-controller: templates
     post: 
+      x-operation: createTemplate
       tags:
         - Templates
       summary: Create a new template
@@ -132,31 +142,17 @@ paths:
           application/json:
             schema: 
               $ref: '#/components/schemas/Template'
-            example:
-              user id: 237e9877-e79b-12d4-a765-321741963000
-              name: Fluttercats
-              description: Fluttercats are a special species of fae found near quiet cottages and gardens. Shy and secretive, these little fae only tend to come out at night. Ranging from four to six inches at the shoulder, Fluttercats have butterfly wings that come in most ever color that always match their eyes.
-              permissions: Public
-              fields: 
-                 - Pronouns:
-                     - string
-                 - Wing Type:
-                     - string
-                 - Coat Pattern:
-                     - string
-                 - Height at Shoulder:
-                     - double
-                 - Description:
-                     - string
-                 - Personality:
-                     - string
-              thumbnail: image.png
       responses:
         201: 
           description: Template sucessfully created
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Template'
         400:
           description: Request body not correctly formatted
   /templates/{template_id}/{user_id}:
+    x-controller: templates_template_id_user_id
     parameters: 
         - name: template_id
           in: path
@@ -169,6 +165,7 @@ paths:
           schema:
             type: string
     delete:
+      x-operation: deleteTemplate
       tags:
        - Templates
       summary: Delete a template
@@ -176,6 +173,7 @@ paths:
         204: 
           description: Successfully deleted a template
     put:
+      x-operation: updateTemplate
       tags:
        - Templates
       summary: Update a template
@@ -185,40 +183,33 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Template'
-            example:
-              name: Fluttercats
-              description: Fluttercats are a special species of fae found near quiet cottages and gardens. Shy and secretive, these little fae only tend to come out at night. Ranging from four to six inches at the shoulder, Fluttercats have butterfly wings that come in most ever color that always match their eyes.
-              permissions: Public
-              fields: 
-                 - Pronouns:
-                     - string
-                 - Wing Type:
-                     - string
-                 - Coat Pattern:
-                     - string
-                 - Height at Shoulder:
-                     - double
-                 - Description:
-                     - string
-                 - Personality:
-                     - string
-              thumbnail: image.png
       responses:
         200:
           description: Sucessfully updated a template
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Template'
         400:
           description: Request body not correctly formatted
     get:
+      x-operation: getTemplate
       tags:
          - Templates
       summary: Retrieve a template
       responses:
         200:
           description: Successfully retrieved a template
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
         400:
           description: Incorrectly formatted request
   /characters:
+    x-controller: characters
     post: 
+      x-operation: createCharacter
       tags:
         - Characters
       summary: Create a new character
@@ -228,32 +219,17 @@ paths:
           application/json:
             schema: 
               $ref: '#/components/schemas/Character'
-            example:
-              user id: 237e9877-e79b-12d4-a765-321741963000
-              template id: 583e5a7b-48bc-913f-0dd4-463559268361
-              name: Monarch
-              description: Fluttercats are a special species of fae found near quiet cottages and gardens. Shy and secretive, these little fae only tend to come out at night. Ranging from four to six inches at the shoulder, Fluttercats have butterfly wings that come in most ever color that always match their eyes.
-              permissions: Public
-              information: 
-                 - Pronouns:
-                     - She/Her
-                 - Wing Type:
-                     - Monarch Butterfly
-                 - Coat Pattern:
-                     - Solid dark grey, short fur
-                 - Height at Shoulder:
-                     - 5.7
-                 - Description:
-                     - On the larger side for a Fluttercat with big, vivid wings and bright amber eyes. She has a small scar on her chin. 
-                 - Personality:
-                     - Stiff and formal, Monarch can be a hard character to get along with at first. Still, she does eventually warm up to other Fluttercats, given enough time.
-              thumbnail: image.png
       responses:
         201: 
           description: Character sucessfully created
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Character'
         400:
           description: Request body not correctly formatted
   /characters/{character_id}/{template_id}/{user_id}:
+    x-controller: characters_character_id_template_id_user_id
     parameters: 
         - name: character_id
           in: path
@@ -271,6 +247,7 @@ paths:
           schema:
             type: string
     delete:
+      x-operation: deleteCharacter
       tags:
        - Characters
       summary: Delete a character
@@ -278,6 +255,7 @@ paths:
         204: 
           description: Successfully deleted a character
     put:
+      x-operation: updateCharacter
       tags:
        - Characters
       summary: Update a character
@@ -287,38 +265,27 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Character'
-            example:
-              user id: 237e9877-e79b-12d4-a765-321741963000
-              template id: 583e5a7b-48bc-913f-0dd4-463559268361
-              name: Monarch
-              description: Fluttercats are a special species of fae found near quiet cottages and gardens. Shy and secretive, these little fae only tend to come out at night. Ranging from four to six inches at the shoulder, Fluttercats have butterfly wings that come in most ever color that always match their eyes.
-              permissions: Public
-              information: 
-                 - Pronouns:
-                     - She/Her
-                 - Wing Type:
-                     - Monarch Butterfly
-                 - Coat Pattern:
-                     - Solid dark grey, short fur
-                 - Height at Shoulder:
-                     - 5.7
-                 - Description:
-                     - On the larger side for a Fluttercat with big, vivid wings and bright amber eyes. She has a small scar on her chin. 
-                 - Personality:
-                     - Stiff and formal, Monarch can be a hard character to get along with at first. Still, she does eventually warm up to other Fluttercats, given enough time.
-              thumbnail: image.png
       responses:
         200:
           description: Sucessfully updated a character
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Character'
         400:
           description: Request body not correctly formatted
     get:
+      x-operation: getCharacter
       tags:
          - Characters
       summary: Retrieve a character
       responses:
         200:
           description: Successfully retrieved a character
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
         400:
           description: Incorrectly formatted request
 components:
@@ -338,6 +305,7 @@ components:
         password: 
           type: string
           format: password
+          writeOnly: true
         pronouns: 
           type: string
         profile picture: 
@@ -345,6 +313,13 @@ components:
           format: byte
         about me: 
           type: string
+      example:
+        username: JellyCat
+        email: JellyCats89@gmail.com
+        password: jumpingjellybeans8!
+        pronouns: She/Her
+        profile picture: c3RyaW5nIGV4YW1wbGU=
+        about me: smol bean who likes cats
     Template:
       type: object
       properties:
@@ -362,13 +337,32 @@ components:
           items: 
             type: object
             properties: 
-                field name:
+                fieldName:
                   type: string
                 information:
                   type: string
         thumbnail: 
           type: string
-          format: byte        
+          format: byte
+      example:
+        user id: 237e9877-e79b-12d4-a765-321741963000
+        template id: 583e5a7b-48bc-913f-0dd4-463559268361
+        name: Monarch
+        permissions: Public
+        information: 
+           - fieldName: Pronouns
+             information: She/Her
+           - fieldName: Wing Type
+             information: Monarch Butterfly
+           - fieldName: Coat Pattern
+             information: Solid dark grey, short fur
+           - fieldName: Height at Shoulder
+             information: 5.7
+           - fieldName: Description
+             information: On the larger side for a Fluttercat with big, vivid wings and bright amber eyes. She has a small scar on her chin. 
+           - fieldName: Personality
+             information: Stiff and formal, Monarch can be a hard character to get along with at first. Still, she does eventually warm up to other Fluttercats, given enough time.
+        thumbnail: c3RyaW5nIGV4YW1wbGU=
     Character:
       type: object
       properties:
@@ -385,14 +379,32 @@ components:
           items: 
             type: object
             properties: 
-                field name:
+                fieldName:
                   type: string
                 information:
                   type: string
         thumbnail: 
           type: string
           format: byte
-        
+      example:
+        user id: 237e9877-e79b-12d4-a765-321741963000
+        template id: 583e5a7b-48bc-913f-0dd4-463559268361
+        name: Monarch
+        permissions: Public
+        information: 
+           - fieldName: Pronouns
+             information: She/Her
+           - fieldName: Wing Type
+             information: Monarch Butterfly
+           - fieldName: Coat Pattern
+             information: Solid dark grey, short fur
+           - fieldName: Height at Shoulder
+             information: 5.7
+           - fieldName: Description
+             information: On the larger side for a Fluttercat with big, vivid wings and bright amber eyes. She has a small scar on her chin. 
+           - fieldName: Personality
+             information: Stiff and formal, Monarch can be a hard character to get along with at first. Still, she does eventually warm up to other Fluttercats, given enough time.
+        thumbnail: c3RyaW5nIGV4YW1wbGU=
           
           
           
