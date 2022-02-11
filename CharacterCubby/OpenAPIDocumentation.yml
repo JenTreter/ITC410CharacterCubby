@@ -1,0 +1,411 @@
+openapi: 3.0.3
+info: 
+  title: Character Cubby API
+  version: 1.0.0
+paths: 
+  /users:
+    x-controller: users
+    post: 
+      x-operation: createUser
+      tags:
+        - Users
+      summary: Create a new user account
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/User'
+      responses:
+        201: 
+          description: User sucessfully created
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/User'
+        400:
+          description: Request body not correctly formatted
+        409:
+          description: User already exists
+  /users/{user_id}:
+    x-controller: users_userid
+    parameters: 
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+    delete:
+      x-operation: deleteUser
+      tags:
+       - Users
+      summary: Delete a user
+      responses:
+        204: 
+          description: Successfully deleted a user
+    put:
+      x-operation: updateUser
+      tags:
+       - Users
+      summary: Update a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: Sucessfully updated a user
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/User'
+        400:
+          description: Request body not correctly formatted
+    get:
+      x-operation: getUser
+      tags:
+         - Users
+      summary: Retrieve a user
+      responses:
+        200:
+          description: Successfully retrieved a user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: Incorrectly formatted request
+  /users/{user_id}/login:
+    x-controller: users_userid_login
+    parameters: 
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+    put:
+      x-operation: loginUser
+      tags:
+       - Users
+      summary: Log in a user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: 
+               - password
+              properties:
+                password:
+                  type: string
+                  format: password
+            example:
+              password: jumpingjellybeans8!
+      responses:
+        200: 
+          description: Authenticated
+        400:
+          description: Invalid request
+        403:
+          description: Access denied
+  /users/{user_id}/logout:
+    x-controller: users_userid_logout
+    parameters: 
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+    put:
+      x-operation: logoutUser
+      tags:
+       - Users
+      summary: Log out a user.
+      responses:
+        200: 
+          description: Logged out.
+        403:
+          description: Access denied
+  /templates:
+    x-controller: templates
+    post: 
+      x-operation: createTemplate
+      tags:
+        - Templates
+      summary: Create a new template
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/Template'
+      responses:
+        201: 
+          description: Template sucessfully created
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Template'
+        400:
+          description: Request body not correctly formatted
+  /templates/{template_id}/{user_id}:
+    x-controller: templates_template_id_user_id
+    parameters: 
+        - name: template_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+    delete:
+      x-operation: deleteTemplate
+      tags:
+       - Templates
+      summary: Delete a template
+      responses:
+        204: 
+          description: Successfully deleted a template
+    put:
+      x-operation: updateTemplate
+      tags:
+       - Templates
+      summary: Update a template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Template'
+      responses:
+        200:
+          description: Sucessfully updated a template
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Template'
+        400:
+          description: Request body not correctly formatted
+    get:
+      x-operation: getTemplate
+      tags:
+         - Templates
+      summary: Retrieve a template
+      responses:
+        200:
+          description: Successfully retrieved a template
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        400:
+          description: Incorrectly formatted request
+  /characters:
+    x-controller: characters
+    post: 
+      x-operation: createCharacter
+      tags:
+        - Characters
+      summary: Create a new character
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/Character'
+      responses:
+        201: 
+          description: Character sucessfully created
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Character'
+        400:
+          description: Request body not correctly formatted
+  /characters/{character_id}/{template_id}/{user_id}:
+    x-controller: characters_character_id_template_id_user_id
+    parameters: 
+        - name: character_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: template_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+    delete:
+      x-operation: deleteCharacter
+      tags:
+       - Characters
+      summary: Delete a character
+      responses:
+        204: 
+          description: Successfully deleted a character
+    put:
+      x-operation: updateCharacter
+      tags:
+       - Characters
+      summary: Update a character
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Character'
+      responses:
+        200:
+          description: Sucessfully updated a character
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Character'
+        400:
+          description: Request body not correctly formatted
+    get:
+      x-operation: getCharacter
+      tags:
+         - Characters
+      summary: Retrieve a character
+      responses:
+        200:
+          description: Successfully retrieved a character
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        400:
+          description: Incorrectly formatted request
+components:
+  schemas:
+    User:
+      type: object
+      required:
+       - username
+       - email
+       - password
+       - pronouns
+      properties:
+        username: 
+          type: string
+        email: 
+          type: string
+        password: 
+          type: string
+          format: password
+          writeOnly: true
+        pronouns: 
+          type: string
+        profilePicture: 
+          type: string
+          format: byte
+        aboutMe: 
+          type: string
+      example:
+        username: JellyCat
+        email: JellyCats89@gmail.com
+        pronouns: She/Her
+        profilePicture: c3RyaW5nIGV4YW1wbGU=
+        aboutMe: smol bean who likes cats
+    Template:
+      type: object
+      properties:
+        userId:
+          type: string
+          readOnly: true
+        name: 
+          type: string
+        description: 
+          type: string
+        permissions: 
+          type: string
+        fields:
+          type: array
+          items: 
+            type: object
+            properties: 
+                fieldName:
+                  type: string
+                information:
+                  type: string
+        thumbnail: 
+          type: string
+          format: byte
+      example:
+        userId: 237e9877-e79b-12d4-a765-321741963000
+        templateId: 583e5a7b-48bc-913f-0dd4-463559268361
+        name: Monarch
+        permissions: Public
+        information: 
+           - fieldName: Pronouns
+             information: She/Her
+           - fieldName: Wing Type
+             information: Monarch Butterfly
+           - fieldName: Coat Pattern
+             information: Solid dark grey, short fur
+           - fieldName: Height at Shoulder
+             information: 5.7
+           - fieldName: Description
+             information: On the larger side for a Fluttercat with big, vivid wings and bright amber eyes. She has a small scar on her chin. 
+           - fieldName: Personality
+             information: Stiff and formal, Monarch can be a hard character to get along with at first. Still, she does eventually warm up to other Fluttercats, given enough time.
+        thumbnail: c3RyaW5nIGV4YW1wbGU=
+    Character:
+      type: object
+      properties:
+        userId:
+          type: string
+          readOnly: true
+        templateId:
+          type: string
+          readOnly: true
+        name: 
+          type: string
+        information:
+          type: array
+          items: 
+            type: object
+            properties: 
+                fieldName:
+                  type: string
+                information:
+                  type: string
+        thumbnail: 
+          type: string
+          format: byte
+      example:
+        userId: 237e9877-e79b-12d4-a765-321741963000
+        templateId: 583e5a7b-48bc-913f-0dd4-463559268361
+        name: Monarch
+        permissions: Public
+        information: 
+           - fieldName: Pronouns
+             information: She/Her
+           - fieldName: Wing Type
+             information: Monarch Butterfly
+           - fieldName: Coat Pattern
+             information: Solid dark grey, short fur
+           - fieldName: Height at Shoulder
+             information: 5.7
+           - fieldName: Description
+             information: On the larger side for a Fluttercat with big, vivid wings and bright amber eyes. She has a small scar on her chin. 
+           - fieldName: Personality
+             information: Stiff and formal, Monarch can be a hard character to get along with at first. Still, she does eventually warm up to other Fluttercats, given enough time.
+        thumbnail: c3RyaW5nIGV4YW1wbGU=
+          
+          
+          
+          
+          
