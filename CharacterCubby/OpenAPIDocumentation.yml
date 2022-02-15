@@ -322,7 +322,7 @@ components:
     Template:
       type: object
       properties:
-        userId:
+        user_id:
           type: string
           readOnly: true
         name: 
@@ -344,9 +344,10 @@ components:
           type: string
           format: byte
       example:
-        userId: 237e9877-e79b-12d4-a765-321741963000
-        templateId: 583e5a7b-48bc-913f-0dd4-463559268361
+        user_id: 237e9877-e79b-12d4-a765-321741963000
+        template_id: 583e5a7b-48bc-913f-0dd4-463559268361
         name: Monarch
+        description: Fluttercats are small, feline fae.
         permissions: Public
         information: 
            - fieldName: Pronouns
@@ -365,10 +366,10 @@ components:
     Character:
       type: object
       properties:
-        userId:
+        user_id:
           type: string
           readOnly: true
-        templateId:
+        template_id:
           type: string
           readOnly: true
         name: 
@@ -386,8 +387,8 @@ components:
           type: string
           format: byte
       example:
-        userId: 237e9877-e79b-12d4-a765-321741963000
-        templateId: 583e5a7b-48bc-913f-0dd4-463559268361
+        user_id: 237e9877-e79b-12d4-a765-321741963000
+        template_id: 583e5a7b-48bc-913f-0dd4-463559268361
         name: Monarch
         permissions: Public
         information: 

@@ -46,20 +46,20 @@ The users of the website, who create and use templates to fill out biographies f
 
 | Property | Type | Description |
 | ------ | ------ | ------ |
-| user id | UUID | Auto-generated, unique, immutable. |
+| user_id | UUID | Auto-generated, unique, immutable. |
 | username | string | Unique, the user's chosen display name. |
 | email | string | Unique, the user's associated email address. |
 | password | encrypted text | The user's password. |
 | pronouns | string | The pronouns the user wishes to use. |
-| profile picture | file | (Optional) png jpg only, limited size. |
-| about me | text | (Optional) information about the user that they wish to provide. |
+| profilePicture | file | (Optional) png jpg only, limited size. |
+| aboutMe | text | (Optional) information about the user that they wish to provide. |
 
 ### Template
 Forms created by users with different kinds of fields. Templates are filled out by the user later to create characters of the template type.
 | Property | Type | Description |
 | ------ | ------ | ------ |
-| template id | UUID | Auto-generated, unique, immutable. |
-| user id | UUID | Unique, the id of the user who created the template. |
+| template_id | UUID | Auto-generated, unique, immutable. |
+| user_id | UUID | Unique, the id of the user who created the template. |
 | name | string | Name of the template. |
 | description | string | (Optional) information about the template. |
 | permissions | string | Permissions for who may view and use the template, either private (only the creator can use) or public (any user can use). |
@@ -69,10 +69,10 @@ Forms created by users with different kinds of fields. Templates are filled out 
 Instances of templates created by users with fields of the template filled out.
 | Property | Type | Description |
 | ------ | ------ | ------ |
-| character id | UUID | Auto-generated, unique, immutable. |
-| user id | UUID | Unique, the id of the user who created the template. |
+| character_id | UUID | Auto-generated, unique, immutable. |
+| user_id | UUID | Unique, the id of the user who created the template. |
+| template_id | UUID | Unique, the id of the template used for this character. |
 | name | string | Name of the character. |
-| template id | UUID | Unique, the id of the template used for this character. |
 | information | array | A 2D array of filled out fields for template. |
 | thumbnail | file | (Optional) png jpg only, limited size. |
 
@@ -82,13 +82,13 @@ Instances of templates created by users with fields of the template filled out.
 
 **Image**
 
-- image id (unique)
+- image_id (unique)
 - data
 
 | Property | Type | Description |
 | ------ | ------ | ------ |
-| image id | UUID | Auto-generated, unique, immutable. |
-| file data | file | The data of the file. |
+| image_id | UUID | Auto-generated, unique, immutable. |
+| fileData | file | The data of the file. |
 
 # REST API Design
 
@@ -113,31 +113,29 @@ The users of the website, who create and use templates to fill out biographies f
 #### Create User
 ````JSON
 {
-    "username": "string",
-    "email": "string",
-    "password": "string",
-    "pronouns": "string",
-    "profile picture": {},
-    "about me": "string"
+  "username": "JellyCat",
+  "email": "JellyCats89@gmail.com",
+  "pronouns": "She/Her",
+  "profilePicture": "c3RyaW5nIGV4YW1wbGU=",
+  "aboutMe": "smol bean who likes cats"
 }
 ````
 
 #### Update User
 ````JSON
 {
-    "username": "string",
-    "email": "string",
-    "password": "string",
-    "pronouns": "string",
-    "profile picture": {},
-    "about me": "string"
+  "username": "JellyCat",
+  "email": "JellyCats89@gmail.com",
+  "pronouns": "She/Her",
+  "profilePicture": "c3RyaW5nIGV4YW1wbGU=",
+  "aboutMe": "smol bean who likes cats"
 }
 ````
 
 #### User Log In
 ````JSON
 {
-    "password": "string"
+  "password": "jumpingjellybeans8!"
 }
 ````
 
@@ -145,11 +143,11 @@ The users of the website, who create and use templates to fill out biographies f
 #### Get User
 ````JSON
 {
-    "username": "string",
-    "email": "string",
-    "pronouns": "string",
-    "profile picture": {},
-    "about me": "string"
+  "username": "JellyCat",
+  "email": "JellyCats89@gmail.com",
+  "pronouns": "She/Her",
+  "profilePicture": "c3RyaW5nIGV4YW1wbGU=",
+  "aboutMe": "smol bean who likes cats"
 }
 ````
 
@@ -172,29 +170,67 @@ Forms created by users with different kinds of fields. Templates are filled out 
 #### Create Template
 ````JSON
 {
-    "user id": "string",
-    "name": "string",
-    "description": "string",
-    "permissions": "string",
-    "fields": 
-    [
-        { "field name": "string" },
-        { "field name": "string" }
-    ]
-}
+  "user_id": "237e9877-e79b-12d4-a765-321741963000",
+  "template_id": "583e5a7b-48bc-913f-0dd4-463559268361",
+  "name": "Monarch",
+  "description": "Fluttercats are small, feline fae.",
+  "permissions": "Public",
+  "information": [
+    {
+      "fieldName": "Pronouns",
+      "information": "She/Her"
+    },
+    {
+      "fieldName": "Wing Type",
+      "information": "Monarch Butterfly"
+    },
+    {
+      "fieldName": "Coat Pattern",
+      "information": "Solid dark grey, short fur"
+    },
+    {
+      "fieldName": "Height at Shoulder",
+      "information": 5.7
+    },
+    {
+   
 ````
 
 #### Update Template
 ````JSON
 {
-    "name": "string",
-    "description": "string",
-    "permissions": "string",
-    "fields": 
-    [
-        { "field name": "string" },
-        { "field name": "string" }
-    ]
+  "user_id": "237e9877-e79b-12d4-a765-321741963000",
+  "template_id": "583e5a7b-48bc-913f-0dd4-463559268361",
+  "name": "Monarch",
+  "description": "Fluttercats are small, feline fae.",
+  "permissions": "Public",
+  "information": [
+    {
+      "fieldName": "Pronouns",
+      "information": "She/Her"
+    },
+    {
+      "fieldName": "Wing Type",
+      "information": "Monarch Butterfly"
+    },
+    {
+      "fieldName": "Coat Pattern",
+      "information": "Solid dark grey, short fur"
+    },
+    {
+      "fieldName": "Height at Shoulder",
+      "information": 5.7
+    },
+    {
+      "fieldName": "Description",
+      "information": "On the larger side for a Fluttercat with big, vivid wings and bright amber eyes. She has a small scar on her chin."
+    },
+    {
+      "fieldName": "Personality",
+      "information": "Stiff and formal, Monarch can be a hard character to get along with at first. Still, she does eventually warm up to other Fluttercats, given enough time."
+    }
+  ],
+  "thumbnail": "c3RyaW5nIGV4YW1wbGU="
 }
 ````
 
@@ -202,15 +238,38 @@ Forms created by users with different kinds of fields. Templates are filled out 
 #### Get Template
 ````JSON
 {
-    "user id": "string",
-    "name": "string",
-    "description": "string",
-    "permissions": "string",
-    "fields": 
-    [
-        { "field name": "string" },
-        { "field name": "string" }
-    ]
+  "user_id": "237e9877-e79b-12d4-a765-321741963000",
+  "template_id": "583e5a7b-48bc-913f-0dd4-463559268361",
+  "name": "Monarch",
+  "description": "Fluttercats are small, feline fae.",
+  "permissions": "Public",
+  "information": [
+    {
+      "fieldName": "Pronouns",
+      "information": "She/Her"
+    },
+    {
+      "fieldName": "Wing Type",
+      "information": "Monarch Butterfly"
+    },
+    {
+      "fieldName": "Coat Pattern",
+      "information": "Solid dark grey, short fur"
+    },
+    {
+      "fieldName": "Height at Shoulder",
+      "information": 5.7
+    },
+    {
+      "fieldName": "Description",
+      "information": "On the larger side for a Fluttercat with big, vivid wings and bright amber eyes. She has a small scar on her chin."
+    },
+    {
+      "fieldName": "Personality",
+      "information": "Stiff and formal, Monarch can be a hard character to get along with at first. Still, she does eventually warm up to other Fluttercats, given enough time."
+    }
+  ],
+  "thumbnail": "c3RyaW5nIGV4YW1wbGU="
 }
 ````
 
@@ -233,28 +292,74 @@ Instances of templates created by users with fields of the template filled out.
 #### Create Character
 ````JSON
 {
-    "user id": "string",
-    "template id": "string",
-    "name": "string",
-    "information": 
-    [
-        { "field name": "string" },
-        { "field name": "string" }
-    ],
-    "thumbnail": {}
+  "user_id": "237e9877-e79b-12d4-a765-321741963000",
+  "template_id": "583e5a7b-48bc-913f-0dd4-463559268361",
+  "name": "Monarch",
+  "permissions": "Public",
+  "information": [
+    {
+      "fieldName": "Pronouns",
+      "information": "She/Her"
+    },
+    {
+      "fieldName": "Wing Type",
+      "information": "Monarch Butterfly"
+    },
+    {
+      "fieldName": "Coat Pattern",
+      "information": "Solid dark grey, short fur"
+    },
+    {
+      "fieldName": "Height at Shoulder",
+      "information": 5.7
+    },
+    {
+      "fieldName": "Description",
+      "information": "On the larger side for a Fluttercat with big, vivid wings and bright amber eyes. She has a small scar on her chin."
+    },
+    {
+      "fieldName": "Personality",
+      "information": "Stiff and formal, Monarch can be a hard character to get along with at first. Still, she does eventually warm up to other Fluttercats, given enough time."
+    }
+  ],
+  "thumbnail": "c3RyaW5nIGV4YW1wbGU="
 }
 ````
 
 #### Update Character
 ````JSON
 {
-    "name": "string",
-    "information": 
-    [
-        { "field name": "string" },
-        { "field name": "string" }
-    ],
-    "thumbnail": {}
+  "user_id": "237e9877-e79b-12d4-a765-321741963000",
+  "template_id": "583e5a7b-48bc-913f-0dd4-463559268361",
+  "name": "Monarch",
+  "permissions": "Public",
+  "information": [
+    {
+      "fieldName": "Pronouns",
+      "information": "She/Her"
+    },
+    {
+      "fieldName": "Wing Type",
+      "information": "Monarch Butterfly"
+    },
+    {
+      "fieldName": "Coat Pattern",
+      "information": "Solid dark grey, short fur"
+    },
+    {
+      "fieldName": "Height at Shoulder",
+      "information": 5.7
+    },
+    {
+      "fieldName": "Description",
+      "information": "On the larger side for a Fluttercat with big, vivid wings and bright amber eyes. She has a small scar on her chin."
+    },
+    {
+      "fieldName": "Personality",
+      "information": "Stiff and formal, Monarch can be a hard character to get along with at first. Still, she does eventually warm up to other Fluttercats, given enough time."
+    }
+  ],
+  "thumbnail": "c3RyaW5nIGV4YW1wbGU="
 }
 ````
 
@@ -262,14 +367,27 @@ Instances of templates created by users with fields of the template filled out.
 #### Get Character
 ````JSON
 {
-    "user id": "string",
-    "template id": "string",
-    "name": "string",
-    "information": 
-    [
-        { "field name": "string" },
-        { "field name": "string" }
-    ],
-    "thumbnail": {}
-}
+  "user_id": "237e9877-e79b-12d4-a765-321741963000",
+  "template_id": "583e5a7b-48bc-913f-0dd4-463559268361",
+  "name": "Monarch",
+  "permissions": "Public",
+  "information": [
+    {
+      "fieldName": "Pronouns",
+      "information": "She/Her"
+    },
+    {
+      "fieldName": "Wing Type",
+      "information": "Monarch Butterfly"
+    },
+    {
+      "fieldName": "Coat Pattern",
+      "information": "Solid dark grey, short fur"
+    },
+    {
+      "fieldName": "Height at Shoulder",
+      "information": 5.7
+    },
+    {
+    
 ````
