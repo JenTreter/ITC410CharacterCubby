@@ -2,16 +2,17 @@
 version: '3.1'
 
 services:
-
-  db: #you choose the name here
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: example
-
-#like PHPMyAdmin
   adminer:
     image: adminer
     restart: always
     ports:
-      - 8080:8080 # (outside port) 8080:8080(inside port)
+      - 8081:8080
+
+  db:
+    build:
+      context: ./docker/db
+    restart: always
+    env_file:
+      - ./.env
+    ports:
+      - ${POSTGRES_PORT}:5432

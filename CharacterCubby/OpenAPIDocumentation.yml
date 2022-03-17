@@ -28,7 +28,7 @@ paths:
         409:
           description: User already exists
   /users/{user_id}:
-    x-controller: users_userid
+    x-controller: users
     parameters: 
         - name: user_id
           in: path
@@ -78,7 +78,7 @@ paths:
         400:
           description: Incorrectly formatted request
   /users/{user_id}/login:
-    x-controller: users_userid_login
+    x-controller: authentication
     parameters: 
         - name: user_id
           in: path
@@ -112,7 +112,7 @@ paths:
         403:
           description: Access denied
   /users/{user_id}/logout:
-    x-controller: users_userid_logout
+    x-controller: authentication
     parameters: 
         - name: user_id
           in: path
@@ -152,7 +152,7 @@ paths:
         400:
           description: Request body not correctly formatted
   /templates/{template_id}/{user_id}:
-    x-controller: templates_template_id_user_id
+    x-controller: templates
     parameters: 
         - name: template_id
           in: path
@@ -229,7 +229,7 @@ paths:
         400:
           description: Request body not correctly formatted
   /characters/{character_id}/{template_id}/{user_id}:
-    x-controller: characters_character_id_template_id_user_id
+    x-controller: characters
     parameters: 
         - name: character_id
           in: path
