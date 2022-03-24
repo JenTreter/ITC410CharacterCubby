@@ -9,7 +9,7 @@ module.exports = function (pool) {
 				res.set('location', '/api/users/' + user_id)
 					.enforcer
 					.status(201)
-					.send()
+					.send({user_id, username, email, pronouns, profilePicture, aboutMe})
 			} else {
 				res.enforcer.status(409).send()
 			}
@@ -17,19 +17,18 @@ module.exports = function (pool) {
 
 		async updateUser (req, res) {
 			const data = req.enforcer.body
-			const { username } = req.enforcer.params
-
+			const { user_id } = req.enforcer.params
 			const client = await pool.connect()
 			try {
 				await client.query('BEGIN')
-				let user = await users.getUserByUsername(client, username)
+				let user = await users.getUser(client, user_id)
 				if (user === undefined) {
 					res.enforcer.status(404).send()
-				} else if (user.user_id !== req.user.id) {
-					res.enforcer.status(403).send()
+				//} else if (user.user_id !== req.user.id) {
+				//	res.enforcer.status(403).send()
 				} else {
-					await users.updateUser(client, req.user.id, data)
-					res.enforcer.status(200).send()
+					await users.updateUser(client, user.user_id, data)
+					res.enforcer.status(200).send({username:user.username, email:user.email, pronouns:user.pronouns, profilePicture:user.profilePicture, aboutMe:user.aboutMe})
 				}
 				await client.query('COMMIT')
 			} catch (e) {
@@ -41,17 +40,18 @@ module.exports = function (pool) {
 		},
 
 		async deleteUser (req, res) {
-			const { username } = req.enforcer.params
+			const { user_id } = req.enforcer.params
+			const client = await pool.connect()
 			try {
 				await client.query('BEGIN')
-				let user = await users.getUserByUsername(client, username)
+				let user = await users.getUser(client, user_id)
 				if (user === undefined) {
 					res.enforcer.status(204).send()
-				} else if (user.user_id !== req.user.id) {
-					res.enforcer.status(403).send()
+				//} else if (user.user_id !== req.user.id) {
+				//	res.enforcer.status(403).send()
 				} else {
-					await users.deleteUser(pool, user.id)
-					res.enforcer.status(200).send()
+					await users.deleteUser(pool, user.user_id)
+					res.enforcer.status(204).send()
 				}
 				await client.query('COMMIT')
 			} catch (e) {

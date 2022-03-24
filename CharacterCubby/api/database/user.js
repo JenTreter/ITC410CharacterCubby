@@ -5,7 +5,7 @@ exports.createUser = async function (client, username, email, password, pronouns
     const user_id = uuid()
     const { rowCount } = await client.query({
         name: 'create-user',
-        text: 'INSERT INTO users (user_id, username, email, password, pronouns, profilePicture, aboutMe) VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING',
+        text: 'INSERT INTO users (user_id, username, email, password, pronouns, "profilePicture", "aboutMe") VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING',
         values: [
             user_id,
             username,
@@ -65,12 +65,12 @@ exports.updateUser = async  function (client, user_id, data) {
 
     if (profilePicture !== undefined) {
         values.push(profilePicture)
-        sets.push('profilePicture=$' + values.length)
+        sets.push('"profilePicture"=$' + values.length)
     }
 
     if (aboutMe !== undefined) {
         values.push(aboutMe)
-        sets.push('aboutMe=$' + values.length)
+        sets.push('"aboutMe"=$' + values.length)
     }
 
     // if no properties were passed in then there is nothing to update
