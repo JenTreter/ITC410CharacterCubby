@@ -27,6 +27,22 @@ paths:
           description: Request body not correctly formatted
         409:
           description: User already exists
+    get:
+      x-operation: getUser
+      tags:
+       - Users
+      security:
+       - cookieAuth: []
+      summary: Retrieve a user
+      responses:
+        200:
+          description: Successfully retrieved a user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: Incorrectly formatted request    
   /users/{user_id}:
     x-controller: users
     parameters: 
@@ -39,6 +55,8 @@ paths:
       x-operation: deleteUser
       tags:
        - Users
+      security:
+       - cookieAuth: []
       summary: Delete a user
       responses:
         204: 
@@ -47,6 +65,8 @@ paths:
       x-operation: updateUser
       tags:
        - Users
+      security:
+       - cookieAuth: []
       summary: Update a user
       requestBody:
         required: true
@@ -66,7 +86,9 @@ paths:
     get:
       x-operation: getUser
       tags:
-         - Users
+       - Users
+      security:
+       - cookieAuth: []
       summary: Retrieve a user
       responses:
         200:
@@ -77,14 +99,8 @@ paths:
                 $ref: '#/components/schemas/User'
         400:
           description: Incorrectly formatted request
-  /users/{user_id}/login:
+  /users/login:
     x-controller: authentication
-    parameters: 
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
     put:
       x-operation: loginUser
       tags:
@@ -97,12 +113,16 @@ paths:
             schema:
               type: object
               required: 
+               - username
                - password
               properties:
+                username:
+                  type: string
                 password:
                   type: string
                   format: password
             example:
+              username: bean
               password: jumpingjellybeans8!
       responses:
         200: 
@@ -111,14 +131,8 @@ paths:
           description: Invalid request
         403:
           description: Access denied
-  /users/{user_id}/logout:
+  /users/logout:
     x-controller: authentication
-    parameters: 
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: string
     put:
       x-operation: logoutUser
       tags:
@@ -127,14 +141,14 @@ paths:
       responses:
         200: 
           description: Logged out.
-        403:
-          description: Access denied
   /templates:
     x-controller: templates
     post: 
       x-operation: createTemplate
       tags:
         - Templates
+      security:
+       - cookieAuth: []
       summary: Create a new template
       requestBody:
         required: true
@@ -168,6 +182,8 @@ paths:
       x-operation: deleteTemplate
       tags:
        - Templates
+      security:
+       - cookieAuth: []
       summary: Delete a template
       responses:
         204: 
@@ -176,6 +192,8 @@ paths:
       x-operation: updateTemplate
       tags:
        - Templates
+      security:
+       - cookieAuth: []
       summary: Update a template
       requestBody:
         required: true
@@ -196,6 +214,8 @@ paths:
       x-operation: getTemplate
       tags:
          - Templates
+      security:
+       - cookieAuth: []
       summary: Retrieve a template
       responses:
         200:
@@ -212,6 +232,8 @@ paths:
       x-operation: createCharacter
       tags:
         - Characters
+      security:
+       - cookieAuth: []
       summary: Create a new character
       requestBody:
         required: true
@@ -250,6 +272,8 @@ paths:
       x-operation: deleteCharacter
       tags:
        - Characters
+      security:
+       - cookieAuth: []
       summary: Delete a character
       responses:
         204: 
@@ -258,6 +282,8 @@ paths:
       x-operation: updateCharacter
       tags:
        - Characters
+      security:
+       - cookieAuth: []
       summary: Update a character
       requestBody:
         required: true
@@ -278,6 +304,8 @@ paths:
       x-operation: getCharacter
       tags:
          - Characters
+      security:
+       - cookieAuth: []
       summary: Retrieve a character
       responses:
         200:
@@ -289,6 +317,11 @@ paths:
         400:
           description: Incorrectly formatted request
 components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: todoSessionId 
   schemas:
     User:
       type: object
@@ -310,7 +343,6 @@ components:
           type: string
         profilePicture: 
           type: string
-          format: byte
         aboutMe: 
           type: string
       example:

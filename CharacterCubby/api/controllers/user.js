@@ -63,7 +63,11 @@ module.exports = function (pool) {
 		},
 
 		async getUser (req, res) {
-			const { username } = req.enforcer.params
+			let { username } = req.enforcer.params
+			const client = await pool.connect()
+			if (username == undefined){
+				username = req.user.username
+			}
 			try {
 				await client.query('BEGIN')
 				let user = await users.getUserByUsername(client, username)
@@ -73,7 +77,7 @@ module.exports = function (pool) {
 					res.enforcer.status(403).send()
 				} else {
 					await users.getUser(pool, user.id)
-					res.enforcer.status(200).send()
+					res.enforcer.status(200).send({username:user.username, email:user.email, pronouns:user.pronouns, profilePicture:user.profilePicture, aboutMe:user.aboutMe})
 				}
 				await client.query('COMMIT')
 			} catch (e) {
