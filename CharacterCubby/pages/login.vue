@@ -14,7 +14,7 @@
 <script>
 export default {
   name: 'Hello',
-  middleware: ['no-auth'],
+  middleware: ['noauth'],
   data () {
     return {
       username: '',

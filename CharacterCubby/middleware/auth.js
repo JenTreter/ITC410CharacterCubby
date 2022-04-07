@@ -1,5 +1,5 @@
 export default function auth({ redirect, store }) {
-    if (store.state.accounts.user === null) {
+    if (store.state.users.user === null) {
       return redirect('/login')
     }
   }
